@@ -29,8 +29,10 @@ jobs:
       run: |
         pyinstaller --onefile --distpath dist Joel.py
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
+    - name: Create a Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: Joel-Executable
-        path: dist/Joel.exe
+        files: dist/Joel.exe
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
